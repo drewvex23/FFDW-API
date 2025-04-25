@@ -24,12 +24,13 @@ def question(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-def individual_question(request):
+@api_view(['GET', 'POST'])
+def individual_question(request, pk):
     """
     List all code questions, or create a new question.
     """
     if request.method == 'GET':
-        question = Question.objects.all()
+        question = Question.objects.get(pk=pk)
         serializer = QuestionSerializer(question)
         print("views.py:16", serializer.data)
         return Response(serializer.data)
